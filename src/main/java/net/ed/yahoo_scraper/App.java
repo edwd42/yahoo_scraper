@@ -7,7 +7,8 @@ public class App
     {
     	LoginController login = new LoginController();
     	login.loadWebDriver();
-    	login.navigate();
+    	login.navigateToLogin();
+    	login.getWatchlistPage();
 //    	login.unloadWebDriver();
     }
     

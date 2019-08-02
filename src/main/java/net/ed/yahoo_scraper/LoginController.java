@@ -11,13 +11,17 @@ import java.util.concurrent.TimeoutException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import com.gargoylesoftware.htmlunit.BrowserVersion; 
 
 public class LoginController implements ILoggable {
 	
     private static String[] loginCredentials = new String[4];
 
 	private WebDriver driver;
+//    private HtmlUnitDriver driver;
 	
 	public WebDriver loadWebDriver() {
 		
@@ -27,10 +31,11 @@ public class LoginController implements ILoggable {
 		System.setProperty(keyC, valueC);
 		
 		driver = new ChromeDriver(); // launch chrome
+//		driver = new HtmlUnitDriver();
 		return driver;
 	}
 	
-	public void navigate() {
+	public void navigateToLogin() {
 		
 		driver.get("https://login.yahoo.com");
 		
@@ -60,6 +65,7 @@ public class LoginController implements ILoggable {
 	            loginCredentials[lineNumber] = line;
 	            lineNumber++;
 	        }
+	        scnr.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -74,6 +80,7 @@ public class LoginController implements ILoggable {
 		String username = loginCredentials[1];
 		String password = loginCredentials[2];
 		
+		
 		try {
 			
 			driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);			 
@@ -84,13 +91,30 @@ public class LoginController implements ILoggable {
 			driver.findElement(By.name("password")).sendKeys(password + Keys.ENTER);
 			driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
 //			driver.findElement(By.name("verifyPassword")).click();
-			System.out.println("46. fin getLoggedIn()... " + driver.getCurrentUrl());
+			logger.info(driver.getCurrentUrl());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			driver.quit();
 		}
 		return driver;
+	}
+	
+	public void getWatchlistPage() {
+		
+		String watchlistURL = loginCredentials[3];
+		logger.info(watchlistURL);
+//		driver.get(watchlistURL);
+		driver.navigate().to(watchlistURL);
+		logger.info(driver.getTitle());
+		getData();
+	}
+	
+	
+	public void getData() {
+		
+		WebElement dataTable = driver.findElement(By.xpath("//table/tbody"));
+		System.out.println(dataTable.getText());
 	}
 	
 }

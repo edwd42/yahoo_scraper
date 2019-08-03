@@ -135,36 +135,19 @@ public class LoginController implements ILoggable {
 		int numCols = dataTable.findElements(By.xpath("//table/tbody/tr[1]/td")).size();
 		logger.debug("numCols: " + String.valueOf(numCols));
 		
-		
-		// define local variables for new watchList object
-//		String todaysDate = timeStamp;
-		String symbol = "";
-		Double lastPrice = 0.00;
-		Double todaysChange = 0.00;
-		String percentChange = "";
-		String currency = "";
-		String marketTime = "";
-		String volume = "";
-		Double shares = 0.00;
-		String avgVol = "";
-		String dayRange = "";
-		String fiftyTwoWkRange = "";
-		String dayChart = "";
-		Double marketCap = 0.00;
-		
-		for (int row=1; row <= numRows; row++) {
+		for (int row=1; row < numRows; row++) {
 			System.out.print("row " + row + " fetching data...");
 //			watchList.setTodaysDate(getTimeStamp()); // col 0
-			for (int col = 2; col <= numCols; col++){
+			for (int col = 1; col < numCols; col++){
 				//  col 0 is for getTimeStamp() so start scraping at col 1
 				switch(col) {
 					case 1:	// symbol
-						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span/a")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/a")).getText();
 						logger.debug(tdData);
 						watchList.add(tdData);
 						break;
 					case 2: // lastPrice
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
 						pattern = ",";
 						tdData = tdData.replaceAll(pattern,"");
 						logger.debug(tdData);
@@ -179,7 +162,7 @@ public class LoginController implements ILoggable {
 						}
 						break;
 					case 3: // todaysChange
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
 						pattern = "[\\,%](?!\\d+.\\d+)"; 
 						tdData = tdData.replaceAll(pattern,"");
 						logger.debug(tdData);
@@ -194,33 +177,33 @@ public class LoginController implements ILoggable {
 						}
 						break;
 					case 4: // percentChange
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
 						pattern = "[\\,%](?!\\d+.\\d+)"; 
 						tdData = tdData.replaceAll(pattern,"");
 						logger.debug(tdData);
 						watchList.add(tdData);
 						break;
 					case 5:	// currency
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]")).getText();
 						logger.debug(tdData);
 						watchList.add(tdData);
 						break;
 					case 6: // marketTime
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
 						// need to format market_time as yyyy-mm-dd
 						tdData = String.valueOf(tdData);
 						logger.debug(tdData);
 						watchList.add(tdData);
 						break;
 					case 7: // volume
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
 						pattern = "[M](?!\\d+.\\d+)"; 
 						tdData = tdData.replaceAll(pattern,"");
 						logger.debug(tdData);
 						watchList.add(tdData);
 						break;
 					case 8: // shares
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]")).getText();
 						logger.debug(tdData);
 						if (tdData != "" && tdData.length() > 0) {
 							try {
@@ -233,7 +216,7 @@ public class LoginController implements ILoggable {
 						}
 						break;
 					case 9: // avgVol
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]")).getText();
 						pattern = "[M](?!\\d+.\\d+)"; 
 						tdData = tdData.replaceAll(pattern,"");
 						logger.debug(tdData);
@@ -241,12 +224,12 @@ public class LoginController implements ILoggable {
 						break;
 					case 10: case 11: case 12:
 						tdData = "";
-						watchList.add("");
-						watchList.add("");
-						watchList.add("");
+//						watchList.add("");
+//						watchList.add("");
+//						watchList.add("");
 						break;
 					case 13: // marketCap
-						tdData = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
+						tdData = dataTable.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[" + col + "]/span")).getText();
 						logger.debug(tdData);
 						pattern = "[MBT](?!\\d+.\\d+)"; 
 						tdData = tdData.replaceAll(pattern,"");
@@ -262,6 +245,9 @@ public class LoginController implements ILoggable {
 						} else {
 							watchList.add(null);
 						}
+						break;
+					case 14: case 15: case 16:
+						tdData = "";
 						break;
 					} // end switch
 				} // end col

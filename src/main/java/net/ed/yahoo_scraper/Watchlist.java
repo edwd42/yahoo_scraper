@@ -169,9 +169,12 @@ public class Watchlist implements ILoggable {
 					} // end switch
 				} // end col
 		} // end row
-		for (String temp : watchList) {
-			System.out.println(temp);
-		}
-	}
 
+//		try {
+//			FileUtils.writeLines(new File("src/main/resources/watchList.txt"), watchList);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	}
 }

@@ -1,5 +1,7 @@
 package net.ed.yahoo_scraper;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,28 @@ public class Watchlist implements ILoggable {
 	Watchlist(){
 		logger.debug("inside Watchlist() constructor");
 	}
+	
+    // get date &  time of scrape in mysql format
+	private static LocalDateTime now = LocalDateTime.now();
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	public static String timeStamp = now.format(formatter);
+	
+    // get date &  time of scrape in mysql format
+	public static String getTimeStamp() {
+		return timeStamp;
+	}
+	
+	// set date &  time of scrape in mysql format
+	public static void setTimeStamp(String timeStamp) {
+		Watchlist.timeStamp = timeStamp;
+		System.out.println("67. inside setTimeStamp(): " + Watchlist.timeStamp);
+	}
+	
+    // get date &  time of scrape in mysql format
+//    public String Watchlist(String timeStamp) {
+//		System.out.println("56. inside ScraperUtil(String timeStamp) constructor");
+//		return getTimeStamp();
+//    } 
 	
 	public WebDriver getWatchlistPage(WebDriver driver) {
 		
@@ -44,7 +68,7 @@ public class Watchlist implements ILoggable {
 		
 		for (int row=1; row < numRows; row++) {
 //			System.out.println(" fetching data... row " + row);
-//			watchList.setTodaysDate(getTimeStamp()); // col 0
+			watchList.add(getTimeStamp()); // col 0
 			for (int col = 1; col < numCols; col++){
 				//  col 0 is for getTimeStamp() so start scraping at col 1
 				switch(col) {
@@ -145,6 +169,9 @@ public class Watchlist implements ILoggable {
 					} // end switch
 				} // end col
 		} // end row
+		for (String temp : watchList) {
+			System.out.println(temp);
+		}
 	}
 
 }

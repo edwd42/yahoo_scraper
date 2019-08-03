@@ -1,7 +1,7 @@
 package net.ed.yahoo_scraper;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+//import static org.junit.Assert.assertNotEquals;
 
 import java.util.concurrent.TimeoutException;
 
@@ -29,7 +29,6 @@ public class LoginControllerTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	login.getWatchlistPage();
     	login.unloadWebDriver();
 	}
 }

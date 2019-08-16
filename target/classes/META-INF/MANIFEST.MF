@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+Implementation-Title: yahoo_scraper
+Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: melocal
+Implementation-Vendor-Id: net.ed
 Build-Jdk: 1.8.0_192
+Implementation-URL: http://maven.apache.org
 Created-By: Maven Integration for Eclipse
 
